@@ -11,7 +11,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::all();
+
+        return response()->json($projects);
+
     }
 
     /**
@@ -19,7 +22,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return response()->json;
     }
 
     /**
@@ -27,7 +30,14 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $project = new Project;
+
+        $project->fill($request->all());
+        
+        $project->save();
+                
+        return response()->json($project);
+
     }
 
     /**
