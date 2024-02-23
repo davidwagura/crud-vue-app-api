@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -12,6 +13,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::all();
+        
 
         return response()->json($projects);
 
@@ -22,7 +24,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return response()->json;
+        return response()->json();
     }
 
     /**
@@ -31,9 +33,8 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $project = new Project;
-
-        $project->fill($request->all());
-        
+        $project->name = $request->name;
+        $project->descriptiion = $request->description;
         $project->save();
                 
         return response()->json($project);
@@ -43,9 +44,10 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $project = Project::find($id);
+        return response()->json($project);
     }
 
     /**
@@ -53,22 +55,32 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $project = Project::find($id);
+        return response()->json($project);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $project = Project::findOrFail($id);
 
-    /**
+        $project->name = $request->name;
+        $project->description = $request->description;
+        $project->save();
+
+        return response()->json($project);
+    }    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $project = Project::findOrFail($id);
+
+        $project->delete();
+
+        return response()->json;
     }
 }
